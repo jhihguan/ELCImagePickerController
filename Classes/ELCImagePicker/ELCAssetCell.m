@@ -15,6 +15,8 @@
 @property (nonatomic, strong) NSArray *rowAssets;
 @property (nonatomic, strong) NSMutableArray *imageViewArray;
 @property (nonatomic, strong) NSMutableArray *overlayViewArray;
+@property (nonatomic, strong) NSMutableArray *timeTextArray;
+@property (nonatomic, assign) BOOL showExifTime;
 
 @end
 
@@ -35,7 +37,11 @@
         NSMutableArray *overlayArray = [[NSMutableArray alloc] initWithCapacity:4];
         self.overlayViewArray = overlayArray;
         
+        NSMutableArray *timeArray = [[NSMutableArray alloc] initWithCapacity:4];
+        self.timeTextArray = timeArray;
+        
         self.alignmentLeft = YES;
+        self.showExifTime = [[ELCConsole mainConsole] showExifTime];
 	}
 	return self;
 }
@@ -49,6 +55,12 @@
     for (ELCOverlayImageView *view in _overlayViewArray) {
         [view removeFromSuperview];
 	}
+    
+    if (self.showExifTime) {
+        for (UILabel *view in _timeTextArray) {
+            [view removeFromSuperview];
+        }
+    }
     //set up a pointer here so we don't keep calling [UIImage imageNamed:] if creating overlays
     UIImage *overlayImage = nil;
     for (int i = 0; i < [_rowAssets count]; ++i) {
@@ -76,6 +88,23 @@
             overlayView.hidden = asset.selected ? NO : YES;
             overlayView.labIndex.text = [NSString stringWithFormat:@"%d", asset.index + 1];
         }
+        
+        if (self.showExifTime) {
+            NSString *timeString = [[asset.asset.defaultRepresentation.metadata valueForKey:@"{Exif}"] valueForKey:@"DateTimeOriginal"];
+            if (!timeString) {
+                timeString = @"";
+            }
+            if (i < [_timeTextArray count]) {
+                UILabel *timeLabel = [_timeTextArray objectAtIndex:i];
+                timeLabel.text = timeString;
+            } else {
+                UILabel *timeLabel = [[UILabel alloc] init];
+                timeLabel.text = timeString;
+                timeLabel.font = [UIFont systemFontOfSize:12.0f];
+                timeLabel.numberOfLines = 2;
+                [_timeTextArray addObject:timeLabel];
+            }
+        }
     }
 }
 
@@ -93,7 +122,7 @@
     }
     
 	CGRect frame = CGRectMake(startX, 2, 75, 75);
-	
+    
 	for (int i = 0; i < [_rowAssets count]; ++i) {
         if (CGRectContainsPoint(frame, point)) {
             ELCAsset *asset = [_rowAssets objectAtIndex:i];
@@ -129,7 +158,8 @@
     }
     
 	CGRect frame = CGRectMake(startX, 2, 75, 75);
-	
+    CGRect textFrame = CGRectMake(startX, 77, 75, 30);
+    
 	for (int i = 0; i < [_rowAssets count]; ++i) {
 		UIImageView *imageView = [_imageViewArray objectAtIndex:i];
 		[imageView setFrame:frame];
@@ -140,6 +170,12 @@
         [self addSubview:overlayView];
 		
 		frame.origin.x = frame.origin.x + frame.size.width + 4;
+        if (self.showExifTime) {
+            UILabel *textLabel = [_timeTextArray objectAtIndex:i];
+            [textLabel setFrame:textFrame];
+            [self addSubview:textLabel];
+            textFrame.origin.x = textFrame.origin.x + textFrame.size.width + 4;
+        }
 	}
 }
 

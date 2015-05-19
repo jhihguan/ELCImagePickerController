@@ -51,7 +51,7 @@
 	[self performSelectorInBackground:@selector(preparePhotos) withObject:nil];
     
     // Register for notifications when the photo library has changed
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preparePhotos) name:ALAssetsLibraryChangedNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preparePhotos) name:ALAssetsLibraryChangedNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -64,7 +64,7 @@
 {
     [super viewWillDisappear:animated];
     [[ELCConsole mainConsole] removeAllIndex];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:ALAssetsLibraryChangedNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:ALAssetsLibraryChangedNotification object:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
@@ -263,7 +263,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	return 79;
+    if ([[ELCConsole mainConsole] showExifTime]) {
+        return 109;
+    } else {
+        return 79;
+    }
 }
 
 - (int)totalSelectedAssets

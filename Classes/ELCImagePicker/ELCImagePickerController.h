@@ -54,6 +54,19 @@
  */
 @property (nonatomic, assign) BOOL returnsOriginalImage;
 
+
+/**
+ * YES if the picker photo cell should present exif time,
+ * or NO for the original style
+ */
+@property (nonatomic, assign) BOOL showExifTime;
+
+/**
+ * YES if the picker should return photo metadata(exif, gps, and so on),
+ * NO will not return metadata
+ */
+@property (nonatomic, assign) BOOL returnMetadata;
+
 - (id)initImagePicker;
 - (void)cancelImagePicker;
 
