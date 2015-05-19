@@ -263,7 +263,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	return 79;
+    if ([[ELCConsole mainConsole] showExifTime]) {
+        return 109;
+    } else {
+        return 79;
+    }
 }
 
 - (int)totalSelectedAssets

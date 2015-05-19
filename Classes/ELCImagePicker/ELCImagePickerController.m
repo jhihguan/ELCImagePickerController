@@ -160,4 +160,12 @@
     [[ELCConsole mainConsole] setOnOrder:onOrder];
 }
 
+- (BOOL)showExifTime {
+    return [[ELCConsole mainConsole] showExifTime];
+}
+
+- (void)setShowExifTime:(BOOL)showExifTime {
+    [[ELCConsole mainConsole] setShowExifTime:showExifTime];
+}
+
 @end
