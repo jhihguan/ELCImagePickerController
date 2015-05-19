@@ -61,6 +61,12 @@
  */
 @property (nonatomic, assign) BOOL showExifTime;
 
+/**
+ * YES if the picker should return photo metadata(exif, gps, and so on),
+ * NO will not return metadata
+ */
+@property (nonatomic, assign) BOOL returnMetadata;
+
 - (id)initImagePicker;
 - (void)cancelImagePicker;
 

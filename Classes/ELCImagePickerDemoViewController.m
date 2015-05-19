@@ -31,6 +31,7 @@
     elcPicker.onOrder = YES; //For multiple image selection, display and return order of selected images
     elcPicker.mediaTypes = @[(NSString *)kUTTypeImage, (NSString *)kUTTypeMovie]; //Supports image and movie types
     elcPicker.showExifTime = YES; // show exif create time label
+    elcPicker.returnMetadata = YES; // Return image metadata if YES
     
 	elcPicker.imagePickerDelegate = self;
     

@@ -127,7 +127,11 @@
                                              orientation:orientation];
                 [workingDictionary setObject:img forKey:UIImagePickerControllerOriginalImage];
             }
-
+            
+            if (_returnMetadata) {
+                [workingDictionary setObject:assetRep.metadata forKey:UIImagePickerControllerMediaMetadata];
+            }
+            
             [workingDictionary setObject:[[asset valueForProperty:ALAssetPropertyURLs] valueForKey:[[[asset valueForProperty:ALAssetPropertyURLs] allKeys] objectAtIndex:0]] forKey:UIImagePickerControllerReferenceURL];
             
             [returnArray addObject:workingDictionary];
