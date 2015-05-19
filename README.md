@@ -1,3 +1,14 @@
+This is a forked version of ###[ELCImagePickerController](https://github.com/B-Sides/ELCImagePickerController)
+
+Now the photo picker can show exiftime under photos and return metadata
+```obj-c
+elcPicker.showExifTime = YES;
+elcPicker.returnMetadata = YES;
+```
+
+I also remove the observer for ###ALAssetsLibraryChangedNotification which cause app crash when in photo picker
+
+
 # ELCImagePickerController
 
 *A clone of the UIImagePickerController using the Assets Library Framework allowing for multiple asset selection.*
@@ -29,7 +40,7 @@ The `ELCImagePickerController` will return the select images back to the `ELCIma
 - (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker;
 ```
 
-The Image Picker allows for some customization, including limiting 
+The Image Picker allows for some customization, including limiting
     to just one photo album, limiting to single image selection, and automatically
     scrolling to the bottom. See the demo viewcontroller for example usage.
 
